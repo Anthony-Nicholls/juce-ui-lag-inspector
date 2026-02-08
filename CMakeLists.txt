@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 
+# Use the date for the version of the project
 string(TIMESTAMP TODAY "%Y.%m.%d")
 project(UILagInspector VERSION ${TODAY})
 
+# Fetch JUCE
 include(FetchContent)
 
 FetchContent_Declare(
@@ -12,13 +14,14 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE
 )
 
+# Add the JUCE module source files to the project
 set_property(GLOBAL PROPERTY USE_FOLDERS YES)
 option(JUCE_ENABLE_MODULE_SOURCE_GROUPS "Show all module sources in IDE projects" ON)
 
 FetchContent_MakeAvailable(juce)
 
+# Use the static runtime libraries on Windows
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-
 
 juce_add_plugin(UILagInspector
     COMPANY_NAME "Anthony Nicholls"

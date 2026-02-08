@@ -7,7 +7,7 @@ void Graph::registerEvent (GraphEvent event)
 
     threadId = juce::Thread::getCurrentThreadId();
     const auto scope = fifo1.write (1);
-    eventsBuffer[scope.startIndex1] = event;
+    eventsBuffer[(size_t) scope.startIndex1] = event;
 }
 
 void Graph::setSyncTime (juce::int64 newSyncTime)
@@ -135,10 +135,10 @@ void Graph::paint (juce::Graphics& g)
     };
 
     for (auto i = 0; i < blockSize1; ++i)
-        processEvent (events[startIndex1 + i]);
+        processEvent (events[(size_t) (startIndex1 + i)]);
 
     for (auto i = 0; i < blockSize2; ++i)
-        processEvent (events[startIndex2 + i]);
+        processEvent (events[(size_t) (startIndex2 + i)]);
 
     if (numRead > 0)
         fifo2.finishedRead (numRead);

@@ -9,12 +9,10 @@ If UI performance issues are discovered, this plugin provides an easy-to-share r
 - AAX
 - AU
 - AUv3
-- LV2
 - Standalone
 - VST3
 
 ## Supported operating systems
-- **Android**: Android 7+
 - **iOS**: iOS 12+
 - **Linux**: Mainstream distributions
 - **macOS**: macOS 10.11+

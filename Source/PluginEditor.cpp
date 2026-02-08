@@ -105,9 +105,9 @@ void PluginEditor::paint (juce::Graphics& g)
     int indent = 0;
     int longestLengthInColumn = 0;
 
-    for (int i = 0; i < info.size(); ++i)
+    for (size_t i = 0; i < info.size(); ++i)
     {
-        const int line = i % numLinesPerColumn;
+        const int line = ((int) i) % numLinesPerColumn;
 
         if (line == 0)
         {

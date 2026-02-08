@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
+option(COPY_PLUGIN_AFTER_BUILD "Copy plugin after build" ON)
+option(WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
+
 # Use the date for the version of the project
 string(TIMESTAMP TODAY "%Y.%m.%d")
 project(UILagInspector VERSION ${TODAY})
@@ -29,7 +32,7 @@ juce_add_plugin(UILagInspector
     PLUGIN_CODE UILg
     FORMATS AAX AU AUv3 VST3 Standalone
     PRODUCT_NAME "UI Lag Inspector"
-    COPY_PLUGIN_AFTER_BUILD TRUE
+    COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
     VERSION ${PROJECT_VERSION}
     BUNDLE_ID "com.anthony-nicholls.ui-lag-inspector"
 )
@@ -80,3 +83,11 @@ target_link_libraries(UILagInspector
 )
 
 target_compile_features(UILagInspector PRIVATE cxx_std_17)
+
+if(WARNINGS_AS_ERRORS)
+    target_compile_options(UILagInspector 
+        PRIVATE
+            $<$<CXX_COMPILER_ID:MSVC>:/WX>
+            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Werror>
+    )
+endif()

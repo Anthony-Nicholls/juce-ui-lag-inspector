@@ -69,13 +69,13 @@ void PluginEditor::paint (juce::Graphics& g)
     info.push_back ("CPU Physical cores: " + juce::String (System::getNumPhysicalCpus()));
     info.push_back ("RAM: " + juce::String ((float) System::getMemorySizeInMegabytes() / 1000.0f, 2) + "GB");
 
-    const auto& processor = *getAudioProcessor();
+    const auto& p = *getAudioProcessor();
     info.push_back ("Host: " + juce::String (juce::PluginHostType{}.getHostDescription()));
-    info.push_back ("Wrapper type: " + juce::String (processor.getWrapperTypeDescription (processor.wrapperType)));
-    info.push_back ("Sample-rate: " + juce::String (processor.getSampleRate(), 0) + "Hz");
-    info.push_back ("Buffer size: " + juce::String (processor.getBlockSize()) + " samples");
-    info.push_back ("Channels: In: " + juce::String (processor.getTotalNumInputChannels())
-                         + ", Out: " + juce::String (processor.getTotalNumInputChannels()));
+    info.push_back ("Wrapper type: " + juce::String (p.getWrapperTypeDescription (p.wrapperType)));
+    info.push_back ("Sample-rate: " + juce::String (p.getSampleRate(), 0) + "Hz");
+    info.push_back ("Buffer size: " + juce::String (p.getBlockSize()) + " samples");
+    info.push_back ("Channels: In: " + juce::String (p.getTotalNumInputChannels())
+                         + ", Out: " + juce::String (p.getTotalNumInputChannels()));
 
     const auto* display = juce::Desktop::getInstance().getDisplays().getDisplayForRect (getScreenBounds());
     info.push_back ("Display is primary: " + juce::String (display != nullptr && display->isMain ? "YES" : "NO"));

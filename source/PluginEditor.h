@@ -6,9 +6,9 @@
 
 //==============================================================================
 class PluginEditor  : public juce::AudioProcessorEditor,
-                              private juce::Timer,
-                              private juce::HighResolutionTimer,
-                              private juce::AsyncUpdater
+                      private juce::Timer,
+                      private juce::HighResolutionTimer,
+                      private juce::AsyncUpdater
 {
 public:
     PluginEditor (PluginProcessor&);

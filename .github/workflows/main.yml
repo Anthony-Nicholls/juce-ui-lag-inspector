@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-linux:            
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      
+      - name: Update apt-get
+        run: sudo apt-get update
+        
+      - name: Install compiler dependencies
+        run: sudo apt-get install -y build-essential
+        
+      - name: Install JUCE dependencies
+        run: |
+          sudo apt-get install -y \
+            libasound2-dev \
+            ladspa-sdk \
+            libfreetype-dev \
+            libfontconfig1-dev \
+            libx11-dev \
+            libxcomposite-dev \
+            libxcursor-dev \
+            libxext-dev \
+            libxinerama-dev \
+            libxrandr-dev \
+            libxrender-dev \
+            libglu1-mesa-dev \
+            mesa-common-dev
+      - name: Configure
+        run: | 
+          cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release \
+            -DCOPY_PLUGIN_AFTER_BUILD=OFF \
+            -DWARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build build
+        
+  build-windows:            
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Configure
+        shell: bash
+        run: | 
+          cmake -Bbuild -G"Visual Studio 17 2022" -A x64 \
+            -DCOPY_PLUGIN_AFTER_BUILD=OFF \
+            -DWARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build build --config Release
+
+  build-macos:            
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: lukka/get-cmake@latest
+      - name: Configure
+        run: | 
+          cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release \
+            -DCOPY_PLUGIN_AFTER_BUILD=OFF \
+            -DWARNINGS_AS_ERRORS=ON
+      - name: Build
+        run: cmake --build build

@@ -10,6 +10,7 @@ If UI performance issues are discovered, this plugin provides an easy-to-share r
 - AU
 - AUv3
 - LV2
+- Standalone
 - VST3
 
 ## Supported operating systems

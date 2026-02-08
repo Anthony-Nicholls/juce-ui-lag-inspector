@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 option(COPY_PLUGIN_AFTER_BUILD "Copy plugin after build" ON)
+option(WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
 
 # Use the date for the version of the project
 string(TIMESTAMP TODAY "%Y.%m.%d")
@@ -82,3 +83,11 @@ target_link_libraries(UILagInspector
 )
 
 target_compile_features(UILagInspector PRIVATE cxx_std_17)
+
+if(WARNINGS_AS_ERRORS)
+    target_compile_options(UILagInspector 
+        PRIVATE
+            $<$<CXX_COMPILER_ID:MSVC>:/WX>
+            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Werror>
+    )
+endif()

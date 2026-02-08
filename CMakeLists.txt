@@ -33,19 +33,19 @@ juce_add_plugin(UILagInspector
 
 target_sources(UILagInspector
     PRIVATE
-        Source/Graph.h
-        Source/Graph.cpp
+        source/Graph.h
+        source/Graph.cpp
 
-        Source/PluginEditor.h
-        Source/PluginEditor.cpp
+        source/PluginEditor.h
+        source/PluginEditor.cpp
 
-        Source/PluginProcessor.h
-        Source/PluginProcessor.cpp
+        source/PluginProcessor.h
+        source/PluginProcessor.cpp
 )
 
 target_include_directories(UILagInspector
     PRIVATE
-        Source
+        source
 )
 
 target_compile_definitions(UILagInspector

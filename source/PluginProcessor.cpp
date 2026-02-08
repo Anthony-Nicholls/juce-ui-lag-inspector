@@ -21,6 +21,15 @@ void PluginProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Midi
         buffer.clear (i, 0, buffer.getNumSamples());
 }
 
+void PluginProcessor::processBlock (juce::AudioBuffer<double>& buffer, juce::MidiBuffer&)
+{
+    const auto totalNumInputChannels  = getTotalNumInputChannels();
+    const auto totalNumOutputChannels = getTotalNumOutputChannels();
+
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear (i, 0, buffer.getNumSamples());
+}
+
 //==============================================================================
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {

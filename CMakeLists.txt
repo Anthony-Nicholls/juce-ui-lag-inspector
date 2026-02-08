@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
+option(COPY_PLUGIN_AFTER_BUILD "Copy plugin after build" ON)
+
 # Use the date for the version of the project
 string(TIMESTAMP TODAY "%Y.%m.%d")
 project(UILagInspector VERSION ${TODAY})
@@ -29,7 +31,7 @@ juce_add_plugin(UILagInspector
     PLUGIN_CODE UILg
     FORMATS AAX AU AUv3 VST3 Standalone
     PRODUCT_NAME "UI Lag Inspector"
-    COPY_PLUGIN_AFTER_BUILD TRUE
+    COPY_PLUGIN_AFTER_BUILD ${COPY_PLUGIN_AFTER_BUILD}
     VERSION ${PROJECT_VERSION}
     BUNDLE_ID "com.anthony-nicholls.ui-lag-inspector"
 )

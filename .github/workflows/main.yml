@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-linux:            
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Update apt-get
+        run: sudo apt-get update
+        
+      - name: Install compiler dependencies
+        run: sudo apt-get install -y build-essential
+
+      - name: Install JUCE dependencies
+        run: |
+          sudo apt-get install -y \
+          libasound2-dev \
+          libjack-jackd2-dev \
+          ladspa-sdk \
+          libcurl4-openssl-dev \
+          libfreetype6-dev \
+          libx11-dev \
+          libxcomposite-dev \
+          libxext-dev \
+          libxinerama-dev \
+          libxrandr-dev \
+          libxcursor-dev \
+          libgl1-mesa-dev
+
+      - name: Configure
+        run: cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+        
+  build-windows:            
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Configure
+        run: cmake -Bbuild -G"Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+  build-macos:            
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Configure
+        run: cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build

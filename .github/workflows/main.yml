@@ -33,47 +33,87 @@ jobs:
             libxrender-dev \
             libglu1-mesa-dev \
             mesa-common-dev
+
       - name: Configure
         run: |
           cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release \
             -DCOPY_PLUGIN_AFTER_BUILD=OFF
+
       - name: Build
         run: cmake --build build
+
+      - name: Set release version
+        run: |
+          VERSION=$(cat build/version.txt)
+          echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*_artefacts/Release/LV2/*
+          files: build/*_artefacts/Release/VST3/*
+          files: build/*_artefacts/Release/Standalone/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: lukka/get-cmake@latest
+
       - name: Configure
         shell: bash
         run: |
           cmake -Bbuild -G"Visual Studio 17 2022" -A x64 \
             -DCOPY_PLUGIN_AFTER_BUILD=OFF
+
       - name: Build
         run: cmake --build build --config Release
+
+      - name: Set release version
+        run: |
+          VERSION=$(cat build/version.txt)
+          echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*_artefacts/Release/AAX/*
+          files: build/*_artefacts/Release/LV2/*
+          files: build/*_artefacts/Release/VST3/*
+          files: build/*_artefacts/Release/Standalone/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: lukka/get-cmake@latest
+
       - name: Configure
         run: |
           cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release \
             -DCOPY_PLUGIN_AFTER_BUILD=OFF
+
       - name: Build
         run: cmake --build build
 
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: lukka/get-cmake@latest
-      - name: Configure
+      - name: Set release version
         run: |
-          cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release \
-            -DCOPY_PLUGIN_AFTER_BUILD=OFF \
-            -DCMAKE_SYSTEM_NAME=iOS
-      - name: Build
-        run: cmake --build build
+          VERSION=$(cat build/version.txt)
+          echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          files: build/*_artefacts/Release/AAX/*
+          files: build/*_artefacts/Release/AU/*
+          files: build/*_artefacts/Release/LV2/*
+          files: build/*_artefacts/Release/VST3/*
+          files: build/*_artefacts/Release/Standalone/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

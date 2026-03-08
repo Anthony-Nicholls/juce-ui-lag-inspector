@@ -98,3 +98,7 @@ target_link_libraries(UILagInspector
 )
 
 target_compile_features(UILagInspector PRIVATE cxx_std_17)
+
+add_custom_target(generate_version
+    COMMAND ${CMAKE_COMMAND} -E echo "${PROJECT_VERSION}" > "version.txt"
+)

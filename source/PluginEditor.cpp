@@ -79,8 +79,13 @@ void PluginEditor::paint (juce::Graphics& g)
 
     const auto* display = juce::Desktop::getInstance().getDisplays().getDisplayForRect (getScreenBounds());
     info.push_back ("Display is primary: " + juce::String (display != nullptr && display->isMain ? "YES" : "NO"));
+
+    JUCE_BEGIN_IGNORE_DEPRECATION_WARNINGS
     info.push_back ("Display resolution: " + juce::String (display != nullptr ? juce::String (display->totalArea.getWidth())
                                                                       + " x " + juce::String (display->totalArea.getHeight()) : "Unknown"));
+
+    JUCE_END_IGNORE_DEPRECATION_WARNINGS
+
     info.push_back ("Display scale: " + (display != nullptr ? juce::String (display->scale * 100.0, 0) + "%" : "Unknown"));
     info.push_back ("Display DPI: " + (display != nullptr ? juce::String (display->dpi, 0) : "Unknown"));
     info.push_back ("Display refresh rate: " + (display != nullptr && display->verticalFrequencyHz.has_value() ? juce::String (*display->verticalFrequencyHz, 0) + "Hz" : "Unknown"));

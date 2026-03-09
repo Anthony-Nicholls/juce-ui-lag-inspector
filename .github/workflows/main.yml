@@ -44,15 +44,20 @@ jobs:
 
       - name: Set release version
         run: |
+          cmake --build build --target print-version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector (Linux v${VERSION}).zip" >> $GITHUB_ENV
+
+      - name: Create release archive
+        shell: bash
+        run: |
+          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/*_artefacts/Release/LV2/*
-          files: build/*_artefacts/Release/VST3/*
-          files: build/*_artefacts/Release/Standalone/*
+          files: ${{ env.ARCHIVE_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -73,16 +78,20 @@ jobs:
 
       - name: Set release version
         run: |
+          cmake --build build --target print-version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector (Windows v${VERSION}).zip" >> $GITHUB_ENV
+
+      - name: Create release archive
+        shell: bash
+        run: |
+          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/*_artefacts/Release/AAX/*
-          files: build/*_artefacts/Release/LV2/*
-          files: build/*_artefacts/Release/VST3/*
-          files: build/*_artefacts/Release/Standalone/*
+          files: ${{ env.ARCHIVE_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -102,18 +111,20 @@ jobs:
 
       - name: Set release version
         run: |
+          cmake --build build --target print-version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector (macOS v${VERSION}).zip" >> $GITHUB_ENV
+
+      - name: Create release archive
+        shell: bash
+        run: |
+          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.RELEASE_VERSION }}
-          files: build/*_artefacts/Release/AAX/*
-          files: build/*_artefacts/Release/AU/*
-          files: build/*_artefacts/Release/LV2/*
-          files: build/*_artefacts/Release/VST3/*
-          files: build/*_artefacts/Release/Standalone/*
+          files: ${{ env.ARCHIVE_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

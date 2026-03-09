@@ -44,15 +44,14 @@ jobs:
 
       - name: Set release version
         run: |
-          cmake --build build --target print-version
+          cmake --build build --target generate_version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "ARCHIVE_NAME=UILagInspector (Linux v${VERSION}).zip" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector v${VERSION} (Linux).zip" >> $GITHUB_ENV
 
       - name: Create release archive
-        shell: bash
         run: |
-          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
+          python scripts/package.py build/UILagInspector_artefacts/ "${{ env.ARCHIVE_NAME }}"
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -77,16 +76,17 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Set release version
+        shell: bash
         run: |
-          cmake --build build --target print-version
+          cmake --build build --target generate_version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "ARCHIVE_NAME=UILagInspector (Windows v${VERSION}).zip" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector v${VERSION} (Windows).zip" >> $GITHUB_ENV
 
       - name: Create release archive
         shell: bash
         run: |
-          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
+          python scripts/package.py build/UILagInspector_artefacts/ "${{ env.ARCHIVE_NAME }}"
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -111,15 +111,14 @@ jobs:
 
       - name: Set release version
         run: |
-          cmake --build build --target print-version
+          cmake --build build --target generate_version
           VERSION=$(cat build/version.txt)
           echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "ARCHIVE_NAME=UILagInspector (macOS v${VERSION}).zip" >> $GITHUB_ENV
+          echo "ARCHIVE_NAME=UILagInspector v${VERSION} (macOS).zip" >> $GITHUB_ENV
 
       - name: Create release archive
-        shell: bash
         run: |
-          python scripts/package.py build/UILagInspector_artefacts/Release "${{ env.ARCHIVE_NAME }}").zip"
+          python scripts/package.py build/UILagInspector_artefacts/ "${{ env.ARCHIVE_NAME }}"
 
       - name: Release
         uses: softprops/action-gh-release@v2

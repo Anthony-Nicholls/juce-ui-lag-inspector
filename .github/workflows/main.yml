@@ -7,6 +7,8 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: lukka/get-cmake@latest
@@ -63,6 +65,8 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: lukka/get-cmake@latest
@@ -99,6 +103,8 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: lukka/get-cmake@latest
